@@ -1,0 +1,19 @@
+#button-container {
+  text-align: center;
+  width: 100%;
+}
+button {
+  width: 100px;
+  height: 50px;
+  margin: 25px;
+  display: inline-block;
+}
+#die-container {
+  width: 100%;
+}
+.dice {
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+  text-align: center;
+}
