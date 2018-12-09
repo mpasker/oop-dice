@@ -11,7 +11,7 @@ button {
 #die-container {
   width: 100%;
 }
-.dice {
+.die {
   width: 100px;
   height: 100px;
   display: inline-block;

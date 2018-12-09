@@ -1,59 +1,52 @@
 $(document).ready(function() {
     $('#add-dice').click(function() {
-        return newDice();
+        var die = new Dice();
+        die.rollDie();
+        die.generate();
+        dieArray.push(die);
     })
+
     $('#roll-dice').click(function() {
-        return rollDice();
+        $(dieArray).each(function(index, value) {
+            value.rollDie();
+        });
     })
+
     $('#sum-dice').click(function() {
-        return sumDice();
+         var sum = dieArray.reduce(function (total, num) {
+            return total + num.number;
+        }, 0);
+        alert('the total is ' + sum);
     })
+
+});
 
     //array to store loaded dice.
     var dieArray = [];
     console.log(dieArray);
-    //create Dice object that gives ID and value.
-    var Dice = function(elementID) {
-        this.elementID = elementID;
-        this.value = Math.floor((Math.random() * 6) + 1);
-        this.generate = function() {
-            var d = $('<div id =' + this.elementID + ' class="dice"></div>');
-            $('#dice-container').append(d);
-            $('#' + this.elementID).text(this.value.toString());
-        };
-        this.roll = function() {
-            this.value = Math.floor((Math.random() * 6) + 1);
-            $('#' + this.elementID).text(this.value.toString());
-        }
+    //create Dice object
+    var Dice = function() {
+        this.number = 0;
+        this.die = $('<div class="die"></div>');
+        this.die.click(function() {
+            this.rollDie();
+        }.bind(this));
+
+        this.die.dblclick(function() {
+            this.die.remove();
+            var i = dieArray.indexOf(this);
+            if(i != -1) {
+                dieArray.splice(i, 1);
+            }
+        }.bind(this));
     };
-    function newDice() {
-        var dice = new Dice(dieArray.length);
-        dice.generate();
-        dieArray.push(dice);
-    }
-    //Loops through array of die to roll all dice loaded on page.
-    function rollDice() {
-        for(i = 0; i < dieArray.length; i++) {
-            dieArray[i].roll();
-        }
-    }
-    function sumDice() {
-        var sum = 0;
-        for(i = 0; i < dieArray.length; i++) {
-            sum += dieArray[i].value;
-        }
-        return alert("The sum of all die on the screen is equal to" + " " + sum);
-    }
-    
-});
 
-
-
-
-
-
-
-
-
-
-    
+    Dice.prototype.generate = function() {
+       $('#dice-container').append(this.die);
+   }
+   
+    Dice.prototype.rollDie = function() {
+       this.number = Math.floor((Math.random() * 6) + 1);
+       $(this.die).text(this.number);
+   }
+  
